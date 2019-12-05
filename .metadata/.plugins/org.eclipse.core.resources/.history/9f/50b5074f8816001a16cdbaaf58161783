@@ -1,0 +1,35 @@
+package com.julientejedor.JTDProject;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import org.hibernate.boot.spi.InFlightMetadataCollector.EntityTableXref;
+
+public class testDataBase {
+	private static EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("JTDProject");
+	
+	public static void main(String[] args) {
+		
+		
+		ENTITY_MANAGER_FACTORY.close();
+	}
+	
+	public static void addCompra(String name, String category) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et = null;
+		
+		try {
+			et = em.getTransaction();
+			et.begin();
+			Compra compra = new Compra();
+			compra.setName(name);
+			compra.setCategory(category);
+			em.persist(compra);
+			et.commit();
+		}
+		
+	}
+
+}

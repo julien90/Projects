@@ -1,0 +1,119 @@
+package com.julientejedor.JTDProject;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+
+public class testDataBase {
+
+	private static EntityManagerFactory ENTITY_MANAGER_FACTORY; 
+	
+	public static void main(String[] args) {
+		
+		setClass();
+		addCompra("leche", "compra");
+		addCompra("queso", "compra");
+		addCompra("aceite", "compra");
+		getCompra(1);
+		getCompras();
+		deleteCompra(1);
+		ENTITY_MANAGER_FACTORY.close();
+	}
+	
+	public static void addCompra(String name, String category) {
+		
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et = null;
+		
+		try {
+			et = em.getTransaction();
+			et.begin();
+			Compra compra = new Compra();
+			compra.setName(name);
+			compra.setCategory(category);
+			em.persist(compra);
+			et.commit();
+		}
+		catch(Exception ex) {
+			if(et != null) {
+				et.rollback();
+			}
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		
+	}
+	
+	public static void getCompra(int id) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT c FROM Compra c WHERE c.id = :id";
+		
+		TypedQuery<Compra> tq = em.createQuery(query, Compra.class);
+		tq.setParameter("id", id);
+		Compra compra = null;
+		try {
+			
+			compra = tq.getSingleResult();
+			System.out.println(compra.getName() + " " + compra.getCategory());
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+	}
+	
+	public static void getCompras() {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		String strQuery = "SELECT c FROM Compra c WHERE c.id IS NOT NULL";
+		
+		TypedQuery<Compra> tq = em.createQuery(strQuery, Compra.class);
+		List<Compra> compras;
+		try {
+			
+			compras = tq.getResultList();
+			compras.forEach(comp->System.out.println(comp.getName() + " " + comp.getCategory()));
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+	}
+	
+	public static void deleteCompra(int id) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et = null;
+		Compra compra = null;
+		try {
+			et = em.getTransaction();
+			et.begin();
+			compra = em.find(Compra.class, id);
+			em.remove(compra);
+			em.persist(compra);
+			et.commit();
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+	}
+	
+	private static void setClass() {
+		
+		Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+		ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("JTDProject");
+	}
+
+}
