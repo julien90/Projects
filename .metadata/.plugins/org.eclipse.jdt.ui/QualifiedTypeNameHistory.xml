@@ -8,10 +8,6 @@
 <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
 <fullyQualifiedTypeName name="objects.Alimento"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="java.io.Serializable"/>
-<fullyQualifiedTypeName name="javax.persistence.Id"/>
-<fullyQualifiedTypeName name="javax.persistence.Table"/>
-<fullyQualifiedTypeName name="javax.persistence.Entity"/>
 <fullyQualifiedTypeName name="javax.persistence.Persistence"/>
 <fullyQualifiedTypeName name="javax.persistence.EntityManagerFactory"/>
 <fullyQualifiedTypeName name="javax.persistence.EntityManager"/>
@@ -22,4 +18,10 @@
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.julientejedor.JTDProject.Compra"/>
 <fullyQualifiedTypeName name="com.julientejedor.JTDProject.testDataBase"/>
+<fullyQualifiedTypeName name="javax.persistence.Table"/>
+<fullyQualifiedTypeName name="javax.persistence.Entity"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="javax.persistence.Column"/>
+<fullyQualifiedTypeName name="javax.persistence.Id"/>
+<fullyQualifiedTypeName name="java.sql.Date"/>
 </qualifiedTypeNameHistroy>

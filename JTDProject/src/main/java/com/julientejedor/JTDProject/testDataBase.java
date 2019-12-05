@@ -1,5 +1,6 @@
 package com.julientejedor.JTDProject;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,13 +16,16 @@ public class testDataBase {
 	
 	public static void main(String[] args) {
 		
-		//setClass();
-		addCompra("leche", "compra");
-		addCompra("cafe", "compra");
-		addCompra("mantequilla", "compra");
-		getCompra(1);
-		getCompras();
-		deleteCompra(1);
+//		addTarea("tarea4", "categoria1", Date.valueOf("2019-12-05"), Date.valueOf("2019-12-06"));
+//		getTarea(1);
+//		getTareas();
+//		deleteTarea(2);
+//		addCompra("leche", "compra");
+//		addCompra("cafe", "compra");
+//		addCompra("mantequilla", "compra");
+//		getCompra(1);
+//		getCompras();
+//		deleteCompra(1);
 		ENTITY_MANAGER_FACTORY.close();
 	}
 	
@@ -108,11 +112,91 @@ public class testDataBase {
 			em.close();
 		}
 	}
-	
-	private static void setClass() {
+
+public static void addTarea(String name, String category, Date start, Date end) {
 		
-		Thread.currentThread().setContextClassLoader(testDataBase.class.getClassLoader());
-		ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("JTDProject");
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et = null;
+		
+		try {
+			et = em.getTransaction();
+			et.begin();
+			Tareas tarea = new Tareas();
+			tarea.setName(name);
+			tarea.setCategory(category);
+			tarea.setStartDate(start);
+			tarea.setEndDate(end);
+			em.persist(tarea);
+			et.commit();
+		}
+		catch(Exception ex) {
+			if(et != null) {
+				et.rollback();
+			}
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+		
+	}
+	
+	public static void getTarea(int id) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		String query = "SELECT t FROM Tareas t WHERE t.id = :id";
+		
+		TypedQuery<Tareas> tq = em.createQuery(query, Tareas.class);
+		tq.setParameter("id", id);
+		Tareas tarea = null;
+		try {
+			
+			tarea = tq.getSingleResult();
+			System.out.println(tarea.getName() + " " + tarea.getCategory() + " " + tarea.getStartDate() + " " + tarea.getEndDate());
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+	}
+	
+	public static void getTareas() {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		String strQuery = "SELECT t FROM Tareas t WHERE t.id IS NOT NULL";
+		
+		TypedQuery<Tareas> tq = em.createQuery(strQuery, Tareas.class);
+		List<Tareas> tareas;
+		try {
+			
+			tareas = tq.getResultList();
+			tareas.forEach(tar->System.out.println(tar.getName() + " " + tar.getCategory() + " " + tar.getStartDate() + " " + tar.getEndDate()));
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
+	}
+	
+	public static void deleteTarea(int id) {
+		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
+		EntityTransaction et = null;
+		Tareas tarea = null;
+		try {
+			et = em.getTransaction();
+			et.begin();
+			tarea = em.find(Tareas.class, id);
+			em.remove(tarea);
+			et.commit();
+		}
+		catch(NoResultException ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			em.close();
+		}
 	}
 
 }
