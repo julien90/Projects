@@ -70,6 +70,5 @@ public class Tareas implements Serializable{
 		this.endDate = endDate;
 	}
 	
-	
 
 }
