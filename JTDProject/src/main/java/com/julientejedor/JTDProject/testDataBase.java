@@ -16,11 +16,11 @@ public class testDataBase {
 
 	public static void main(String[] args) {
 
-		addGasto("gasto1", "categoria1", Date.valueOf("2019-12-06"), Date.valueOf("2019-12-07"));
-		addGasto("gasto2", "categoria2", Date.valueOf("2019-12-06"), Date.valueOf("2019-12-07"));
-		getGasto(1);
-		getGastos();
-		deleteGasto(1);
+//		addGasto("gasto1", "categoria1", Date.valueOf("2019-12-06"), Date.valueOf("2019-12-07"));
+//		addGasto("gasto2", "categoria2", Date.valueOf("2019-12-06"), Date.valueOf("2019-12-07"));
+//		getGasto(1);
+//		getGastos();
+//		deleteGasto(1);
 //		addTarea("tarea4", "categoria1", Date.valueOf("2019-12-05"), Date.valueOf("2019-12-06"));
 //		getTarea(1);
 //		getTareas();
